@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-import eye from "../assets/eye.svg";
-import eyeSlash from "../assets/eye-slash.svg";
+import eye from "../assets/loginPage/eye.svg";
+import eyeSlash from "../assets/loginPage/eye-slash.svg";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUsersStore } from "../stores/store.ts";
@@ -76,7 +76,7 @@ function validate() {
     </div>
     <div class="container login">
       <div class="box heroBox">
-        <Logotype />
+       <div class="logotype-desktop"><Logotype /></div>
         <img class="heroImage" src="../assets/backImage.svg" />
         <div class="quote">
           <h2>{{ t("login.quote") }}</h2>
@@ -86,14 +86,14 @@ function validate() {
       <!-- ВХОД -->
       <div v-if="!isRegisterVisible" class="box loginBox">
         
-        <div class="logotype"><Logotype /></div>
+       <div class="logotype-mobile"><Logotype /></div>
 
         <h1>{{ t("login.welcomeBack") }}</h1>
         <p class="hint">{{ t("login.hint3") }}</p>
         <div class="input">
           <label for="email">Email</label> <br />
           <div class="cover">
-            <label for="email" class="labelImg"><img src="../assets/email.svg" /></label>
+            <label for="email" class="labelImg"><img src="../assets/loginPage/email.svg" /></label>
 
             <input
               required
@@ -107,7 +107,7 @@ function validate() {
         <div class="input">
           <label for="password">{{ t("login.password") }}</label> <br />
           <div class="cover">
-            <label for="password" class="labelImg"> <img src="../assets/password.svg" /></label>
+            <label for="password" class="labelImg"> <img src="../assets/loginPage/password.svg" /></label>
             <input
               v-model="passwordInput"
               :type="isPasswordVisible ? 'text' : 'password'"
@@ -137,7 +137,7 @@ function validate() {
       <!-- РЕГИСТРАЦИЯ -->
 
       <div v-else class="box loginBox">
-                <div class="logotype"><Logotype /></div>
+           <div class="logotype-mobile"><Logotype /></div>
 
 
         <h1>{{ t("register.title") }}</h1>
@@ -145,7 +145,7 @@ function validate() {
         <div class="input">
           <label for="name">{{ t("register.name") }}</label> <br />
           <div class="cover">
-            <label for="name" class="labelImg"><img src="../assets/user.svg" /></label>
+            <label for="name" class="labelImg"><img src="../assets/loginPage/user.svg" /></label>
             <input
               required
               v-model="usernameInput"
@@ -158,7 +158,7 @@ function validate() {
         <div class="input">
           <label for="email">Email</label> <br />
           <div class="cover">
-            <label for="email" class="labelImg"><img src="../assets/email.svg" /></label>
+            <label for="email" class="labelImg"><img src="../assets/loginPage/email.svg" /></label>
             <input
               required
               v-model="emailInput"
@@ -171,7 +171,7 @@ function validate() {
         <div class="input">
           <label for="password">{{ t("login.password") }}</label> <br />
           <div class="cover">
-            <label for="password" class="labelImg"> <img src="../assets/password.svg" /></label>
+            <label for="password" class="labelImg"> <img src="../assets/loginPage/password.svg" /></label>
             <input
               required
               v-model="passwordInput"
@@ -226,6 +226,10 @@ function validate() {
   min-height: 85vh;
   margin-top: -3vh;
 }
+
+.logotype2 {
+  display: block;
+}
 .box {
   padding: 4vh 4vw;
 
@@ -258,6 +262,7 @@ function validate() {
 
 .heroBox {
   background: linear-gradient(-90deg, #dfebdf 0%, transparent 100%);
+  
 }
 
 .loginBox {
@@ -363,8 +368,12 @@ button img {
     margin-bottom: 5vh;
 }
 
-.logotype {
-    display: none;
+.logotype-desktop {
+  display: block;
+}
+
+.logotype-mobile {
+  display: none;
 }
 
 @media (max-width: 650px){
@@ -375,11 +384,12 @@ button img {
     display: flex;
     flex-direction: column;
     padding: 2vh 5vw;
+    justify-content: center;
 }
-.logotype {
-    display: flex;
-    margin-bottom: 2vh;
-}
+.logotype-mobile {
+      display: flex;
+      margin-bottom: 2vh;
+  }
 }
 
 @media (max-width: 1134px) {
@@ -392,7 +402,8 @@ button img {
     h1, h2{
         font-size: 1.2rem !important;
     }
-    .cover img, .labelImg {
+    .cover img, 
+    .cover .labelImg {
         display: none;
     }
   
