@@ -55,10 +55,7 @@ function validate() {
   ) {
     message.value = t("errors.errorNoData");
   } else {
-    const success = usersStore.loginUser(
-      emailInput.value,
-      passwordInput.value,
-    );
+    const success = usersStore.loginUser(emailInput.value, passwordInput.value);
 
     if (success) {
       router.push("/homepage");
@@ -70,157 +67,166 @@ function validate() {
 </script>
 
 <template>
-  
-    <div class="container login">
-      <div class="box heroBox">
-       <div class="logotype-desktop"><Logotype /></div>
-        <img class="heroImage" src="../assets/backImage.svg" />
-        <div class="quote">
-          <h2>{{ t("login.quote") }}</h2>
-          <p>{{ t("login.hint") }}</p>
-        </div>
+  <div class="container login">
+    <div class="box heroBox">
+      <div class="logotype-desktop"><Logotype /></div>
+      <img class="heroImage" src="../assets/backImage.svg" />
+      <div class="quote">
+        <h2>{{ t("login.quote") }}</h2>
+        <p>{{ t("login.hint") }}</p>
       </div>
-      <!-- ВХОД -->
-      <div v-if="!isRegisterVisible" class="box loginBox">
-        
-       <div class="logotype-mobile"><Logotype /></div>
-
-        <h1>{{ t("login.welcomeBack") }}</h1>
-        <p class="hint">{{ t("login.hint3") }}</p>
-        <div class="input">
-          <label for="email">Email</label> <br />
-          <div class="cover">
-            <label for="email" class="labelImg"><img src="../assets/loginPage/email.svg" /></label>
-
-            <input
-              required
-              v-model="emailInput"
-              type="email"
-              id="email"
-              placeholder="email@example.com"
-            />
-          </div>
-        </div>
-        <div class="input">
-          <label for="password">{{ t("login.password") }}</label> <br />
-          <div class="cover">
-            <label for="password" class="labelImg"> <img src="../assets/loginPage/password.svg" /></label>
-            <input
-              v-model="passwordInput"
-              :type="isPasswordVisible ? 'text' : 'password'"
-              id="password"
-              placeholder="123password"
-              required
-            />
-            <img
-              @click="isPasswordVisible = !isPasswordVisible"
-              :src="isPasswordVisible ? eyeSlash : eye"
-              class="eye"
-            />
-          </div>
-        </div>
-        <p class="error">{{ message}}</p>
-
-        <button @click="validate()">
-          {{ t("login.logInButton") }} <img src="../assets/arrow.svg" />
-        </button>
-        <p class="hint2">
-          {{ t("login.hint2") }}
-          <span @click="isRegisterVisible = true">{{
-            t("login.linkRegis")
-          }}</span>
-        </p>
-          <div class="langSwitcher">
-    <LangSwincher/>
-
     </div>
+    <!-- ВХОД -->
+    <div v-if="!isRegisterVisible" class="box loginBox">
+      <div class="logotype-mobile"><Logotype /></div>
+
+      <h1>{{ t("login.welcomeBack") }}</h1>
+      <p class="hint">{{ t("login.hint3") }}</p>
+      <div class="input">
+        <label for="email">Email</label> <br />
+        <div class="cover">
+          <label for="email" class="labelImg"
+            ><img src="../assets/loginPage/email.svg"
+          /></label>
+
+          <input
+            required
+            v-model="emailInput"
+            type="email"
+            id="email"
+            placeholder="email@example.com"
+          />
+        </div>
       </div>
-      <!-- РЕГИСТРАЦИЯ -->
-
-      <div v-else class="box loginBox">
-           <div class="logotype-mobile"><Logotype /></div>
-
-
-        <h1>{{ t("register.title") }}</h1>
-        <p class="hint">{{ t("register.hint1") }}</p>
-        <div class="input">
-          <label for="name">{{ t("register.name") }}</label> <br />
-          <div class="cover">
-            <label for="name" class="labelImg"><img src="../assets/loginPage/user.svg" /></label>
-            <input
-              required
-              v-model="usernameInput"
-              type="text"
-              id="name"
-              :placeholder="t('register.namePlaceholder')"
-            />
-          </div>
+      <div class="input">
+        <label for="password">{{ t("login.password") }}</label> <br />
+        <div class="cover">
+          <label for="password" class="labelImg">
+            <img src="../assets/loginPage/password.svg"
+          /></label>
+          <input
+            v-model="passwordInput"
+            :type="isPasswordVisible ? 'text' : 'password'"
+            id="password"
+            placeholder="123password"
+            required
+          />
+          <img
+            @click="isPasswordVisible = !isPasswordVisible"
+            :src="isPasswordVisible ? eyeSlash : eye"
+            class="eye"
+          />
         </div>
-        <div class="input">
-          <label for="email">Email</label> <br />
-          <div class="cover">
-            <label for="email" class="labelImg"><img src="../assets/loginPage/email.svg" /></label>
-            <input
-              required
-              v-model="emailInput"
-              type="email"
-              id="email"
-              placeholder="email@example.com"
-            />
-          </div>
-        </div>
-        <div class="input">
-          <label for="password">{{ t("login.password") }}</label> <br />
-          <div class="cover">
-            <label for="password" class="labelImg"> <img src="../assets/loginPage/password.svg" /></label>
-            <input
-              required
-              v-model="passwordInput"
-              :type="isPasswordVisible ? 'text' : 'password'"
-              id="password"
-              placeholder="123password"
-            />
-            <img
-              @click="isPasswordVisible = !isPasswordVisible"
-              :src="isPasswordVisible ? eyeSlash : eye"
-              class="eye"
-            />
-          </div>
-        </div>
-        <div class="input">
-          <label for="password">{{ t("register.repeatPassword") }}</label>
-          <br />
-          <div class="cover">
-            <input
-              required
-              v-model="passwordCheckInput"
-              :type="isPasswordVisible ? 'text' : 'password'"
-              id="password"
-              placeholder="123password"
-            />
-          </div>
-        </div>
-        <p class="error">{{ message }}</p>
-        <button @click="createUser()">
-          {{ t("register.buttonRegis") }} <img src="../assets/arrow.svg" />
-        </button>
-        <p class="hint2">
-          {{ t("register.hint2") }}
-          <span @click="isRegisterVisible = false">{{
-            t("register.linkLogin")
-          }}</span>
-        </p>
-          <div class="langSwitcher">
-    <LangSwincher/>
+      </div>
+      <p class="error">{{ message }}</p>
 
+      <button :disabled="emailInput.trim()=='' || passwordInput.trim()==''" @click="validate()">
+        {{ t("login.logInButton") }} <img src="../assets/arrow.svg" />
+      </button>
+      <p class="hint2">
+        {{ t("login.hint2") }}
+        <span @click="isRegisterVisible = true">{{
+          t("login.linkRegis")
+        }}</span>
+      </p>
+      <div class="langSwitcher">
+        <LangSwincher />
+      </div>
     </div>
+    <!-- РЕГИСТРАЦИЯ -->
+
+    <div v-else class="box loginBox">
+      <div class="logotype-mobile"><Logotype /></div>
+
+      <h1>{{ t("register.title") }}</h1>
+      <p class="hint">{{ t("register.hint1") }}</p>
+      <div class="input">
+        <label for="name">{{ t("register.name") }}</label> <br />
+        <div class="cover">
+          <label for="name" class="labelImg"
+            ><img src="../assets/loginPage/user.svg"
+          /></label>
+          <input
+            required
+            v-model="usernameInput"
+            type="text"
+            id="name"
+            :placeholder="t('register.namePlaceholder')"
+          />
+        </div>
       </div>
+      <div class="input">
+        <label for="email">Email</label> <br />
+        <div class="cover">
+          <label for="email" class="labelImg"
+            ><img src="../assets/loginPage/email.svg"
+          /></label>
+          <input
+            required
+            v-model="emailInput"
+            type="email"
+            id="email"
+            placeholder="email@example.com"
+          />
+        </div>
+      </div>
+      <div class="input">
+        <label for="password">{{ t("login.password") }}</label> <br />
+        <div class="cover">
+          <label for="password" class="labelImg">
+            <img src="../assets/loginPage/password.svg"
+          /></label>
+          <input
+            required
+            v-model="passwordInput"
+            :type="isPasswordVisible ? 'text' : 'password'"
+            id="password"
+            placeholder="123password"
+          />
+          <img
+            @click="isPasswordVisible = !isPasswordVisible"
+            :src="isPasswordVisible ? eyeSlash : eye"
+            class="eye"
+          />
+        </div>
+      </div>
+      <div class="input">
+        <label for="password">{{ t("register.repeatPassword") }}</label>
+        <br />
+        <div class="cover">
+          <input
+            required
+            v-model="passwordCheckInput"
+            :type="isPasswordVisible ? 'text' : 'password'"
+            id="password"
+            placeholder="123password"
+          />
+        </div>
+      </div>
+      <p class="error">{{ message }}</p>
+      <button @click="createUser()" :disabled="emailInput.trim()=='' || passwordInput.trim()=='' || passwordCheckInput.trim()=='' || usernameInput.trim()==''">
+        {{ t("register.buttonRegis") }} <img src="../assets/arrow.svg" />
+      </button>
+      <p class="hint2">
+        {{ t("register.hint2") }}
+        <span @click="isRegisterVisible = false">{{
+          t("register.linkLogin")
+        }}</span>
+      </p>
+      <div class="langSwitcher">
+        <LangSwincher />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Great+Vibes&family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
 
+button:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -267,7 +273,6 @@ function validate() {
 
 .heroBox {
   background: linear-gradient(-90deg, #dfebdf 0%, transparent 100%);
-  
 }
 
 .loginBox {
@@ -320,7 +325,7 @@ input {
 }
 
 .hint {
-  margin: 2vh 0 ;
+  margin: 2vh 0;
 }
 
 button {
@@ -366,14 +371,14 @@ button img {
 }
 
 .error {
-    color: rgba(255, 0, 0, 0.62);
-    text-align: center;
+  color: rgba(255, 0, 0, 0.62);
+  text-align: center;
 }
 
 .langSwitcher {
   align-self: center;
-    margin-top: 1vh;
-    justify-self: flex-end !important;
+  margin-top: 1vh;
+  justify-self: flex-end !important;
 }
 
 .logotype-desktop {
@@ -384,35 +389,36 @@ button img {
   display: none;
 }
 
-@media (max-width: 650px){
-.heroBox {
+@media (max-width: 650px) {
+  .heroBox {
     display: none;
-}
-.container {
+  }
+  .container {
     display: flex;
     flex-direction: column;
     padding: 2vh 5vw;
     justify-content: center;
-}
-.logotype-mobile {
-      display: flex;
-      margin-bottom: 2vh;
+  }
+  .logotype-mobile {
+    display: flex;
+    margin-bottom: 2vh;
   }
 }
 
 @media (max-width: 1134px) {
-    *{
-        font-size: small;
-    }
-    .loginBox{
-        width: 100%;
-    }
-    h1, h2{
-        font-size: 1.2rem !important;
-    }
-    .cover img, 
-    .cover .labelImg {
-        display: none;
-    }
+  * {
+    font-size: small;
+  }
+  .loginBox {
+    width: 100%;
+  }
+  h1,
+  h2 {
+    font-size: 1.2rem !important;
+  }
+  .cover img,
+  .cover .labelImg {
+    display: none;
+  }
 }
 </style>
