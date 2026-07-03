@@ -70,17 +70,22 @@ export const useLangStore = defineStore("language", {
   state: () => ({
     lang: ((): "en" | "ru" => {
       const stored = localStorage.getItem("lang");
-      return stored === "ru" ? "ru" : "en";
+      return stored === "ru" || stored === "en" ? stored : "en";
     })(),
   }),
   actions: {
-    switchLang(): void {
-      this.lang = this.lang === "en" ? "ru" : "en";
-      localStorage.setItem("lang", this.lang);
-      i18n.global.locale.value = this.lang;
+    setLang(newLang: "en" | "ru"): void {
+      this.lang = newLang;
+      localStorage.setItem("lang", newLang);
+      
+      if (i18n.mode === 'legacy') {
+        i18n.global.locale.value = newLang;
+      } else {
+        (i18n.global.locale as any).value = newLang;
+      }
     },
     initLang(): void {
-      i18n.global.locale.value = this.lang;
+      this.setLang(this.lang);
     },
   },
 });

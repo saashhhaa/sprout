@@ -70,10 +70,7 @@ function validate() {
 </script>
 
 <template>
-    <div class="langSwitcher">
-    <LangSwincher/>
-
-    </div>
+  
     <div class="container login">
       <div class="box heroBox">
        <div class="logotype-desktop"><Logotype /></div>
@@ -133,6 +130,10 @@ function validate() {
             t("login.linkRegis")
           }}</span>
         </p>
+          <div class="langSwitcher">
+    <LangSwincher/>
+
+    </div>
       </div>
       <!-- РЕГИСТРАЦИЯ -->
 
@@ -209,6 +210,10 @@ function validate() {
             t("register.linkLogin")
           }}</span>
         </p>
+          <div class="langSwitcher">
+    <LangSwincher/>
+
+    </div>
       </div>
   </div>
 </template>
@@ -271,7 +276,7 @@ function validate() {
   justify-self: center;
   width: 70%;
   text-align: start;
-  gap: 2vh;
+  gap: 1vh;
 }
 
 h1 {
@@ -296,7 +301,7 @@ input {
 .cover {
   margin-top: 1vh;
   background-color: white;
-  padding: 10px 20px;
+  padding: 7px 20px;
   border-radius: 50px;
   width: 100%;
   display: flex;
@@ -315,7 +320,7 @@ input {
 }
 
 .hint {
-  margin-bottom: 2vh;
+  margin: 2vh 0 ;
 }
 
 button {
@@ -345,7 +350,8 @@ button img {
 
 .hint2 {
   text-align: center;
-  padding-top: 2vh;
+  padding-top: 1vh;
+  margin-top: 1vh;
   border-top: 2px solid var(--bg-secondary2);
 }
 
@@ -365,7 +371,9 @@ button img {
 }
 
 .langSwitcher {
-    margin-bottom: 5vh;
+  align-self: center;
+    margin-top: 1vh;
+    justify-self: flex-end !important;
 }
 
 .logotype-desktop {
@@ -406,6 +414,5 @@ button img {
     .cover .labelImg {
         display: none;
     }
-  
 }
 </style>
