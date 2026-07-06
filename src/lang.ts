@@ -30,7 +30,7 @@ export const lang = {
       errorUsernameValid: "usersname must be at least 2 symbols",
       errorNoSuchAcc: "no such account or wrong password",
     },
-    sideBar: {
+    sideBar:{
       search: "Find task",
       homepage: "Homepage",
       calendar: "Calendar",
@@ -40,6 +40,7 @@ export const lang = {
         personal: "personal",
         study: "study",
         addCategory: "Add category",
+        newCatName: 'category name'
       },
     },
   },
@@ -83,6 +84,7 @@ export const lang = {
         personal: "личное",
         study: "учеба",
         addCategory: "Добавить категорию",
+        newCatName: 'назови категорию'
       },
     },
   },

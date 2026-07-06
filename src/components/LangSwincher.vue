@@ -30,10 +30,9 @@ const langStore = useLangStore();
   /* border: 1px solid red; */
 }
 img {
-  width: 25px;
-  height: 25px;
-  filter: brightness(0.5);
-  /* padding: 0 20; */
+  width: 20px;
+  height: 20px;
+  opacity: 0.3 !important;
 }
 
 .cover {
@@ -57,7 +56,7 @@ button:hover {
 }
 
 .lang {
-  padding: 10px 20px;
+  padding: 5px 20px;
   
 }
 .lang {
@@ -67,7 +66,7 @@ button:hover {
 }
 .lang.active {
   opacity: 1;
-  font-weight: bold;
+  font-weight: 500;
   color: var(--text-secondary); 
   border-radius: 50px;
   border: 1px solid rgba(0, 0, 0, 0.21);

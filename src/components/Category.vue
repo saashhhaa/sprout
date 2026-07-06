@@ -30,23 +30,29 @@ function deleteCategory(): void {
       v-if="isCustom"
       @click="deleteCategory"
       class="delete"
-      src=""
+      src="../assets/homepage/delete.svg"
       alt=""
     />
     <div class="box" v-else></div>
-    <div class="category-count">{{ props.count }}</div>
+    <div class="category-count">0/{{ props.count }}</div>
   </div>
 </template>
 
 <style scoped>
-/* .category {
+* {
+    font-size: 15px;
+}
+.category {
   display: grid;
-  grid-template-columns: 10% 60% 10% 10%;
+  grid-template-columns: 10% 50% 10% 10%;
+  gap: 10px;
   align-items: center;
   border-radius: 10px;
-  padding: 15px 20px;
-  background-color: var(--blackTheme-back-secondary);
-  border: 1px solid transparent;
+  padding: 5px 20px;
+  width: 100%;
+  background-color: white;
+  border: 1.5px solid var(--bg-secondary2);
+  margin-bottom: 10px;
 }
 
 .delete {
@@ -60,33 +66,31 @@ function deleteCategory(): void {
 
 .box,
 .delete {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
 }
 
 .category:hover .delete {
+  opacity: 0.5;
+}
+
+.delete:hover {
   opacity: 1;
 }
 
 .category-icon {
-  width: 10px;
-  height: 10px;
-  border-radius: 100px;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
 }
 
 .category-count {
-  filter: brightness(0.5);
-  text-align: end;
+  /* text-align: end; */
+  opacity: .5;
 }
 
 .category:hover {
-  filter: brightness(1.3);
   cursor: pointer;
 }
 
-@media (max-width: 400px) {
-  .category {
-    padding: 10px 20px;
-  }
-} */
 </style>
