@@ -8,6 +8,73 @@ export interface User {
   email: string;
   image: string;
 }
+export interface Category {
+  color: string;
+  title: string;
+  count: number;
+  isCustom: boolean;
+}
+
+export interface CustomCategory {
+  id: number;
+  userId: number;
+  title: string;
+  color: string;
+  count: number;
+  isCustom: boolean;
+}
+export const useCategoriesStore = defineStore("categories", {
+  state: () => ({
+    categories: [
+      {
+        color: "#ffb32f",
+        title: "work",
+        count: 0,
+        isCustom: false,
+      },
+      {
+        color: "#7fde82",
+        title: "study",
+        count: 0,
+        isCustom: false,
+      },
+      {
+        color: "#d574e6",
+        title: "personal",
+        count: 0,
+        isCustom: false,
+      },
+    ] as Category[],
+    customCategories: JSON.parse(
+      localStorage.getItem("categories") || "[]",
+    ) as CustomCategory[],
+  }),
+  actions: {
+    addCategory(categotyTitle: string, categoryColor: string): void {
+      const users = useUsersStore();
+      if (!users.currentUser) {
+        return;
+      }
+      const newCategory: CustomCategory = {
+        id: Date.now(),
+        userId: users.currentUser.id,
+        title: categotyTitle,
+        color: categoryColor,
+        count: 0,
+        isCustom: true,
+      };
+      this.customCategories.push(newCategory);
+      localStorage.setItem("categories", JSON.stringify(this.customCategories));
+    },
+    deleteCategory(categoryId: number): void {
+      this.customCategories = this.customCategories.filter(
+        (category) => category.id != categoryId,
+      );
+      localStorage.setItem("categories", JSON.stringify(this.customCategories));
+    },
+  },
+});
+
 
 export const useUsersStore = defineStore("users", {
   state: () => ({

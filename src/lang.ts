@@ -30,6 +30,18 @@ export const lang = {
       errorUsernameValid: "usersname must be at least 2 symbols",
       errorNoSuchAcc: "no such account or wrong password",
     },
+    sideBar: {
+      search: "Find task",
+      homepage: "Homepage",
+      calendar: "Calendar",
+      categories: {
+        title: "Categories",
+        work: "work",
+        personal: "personal",
+        study: "study",
+        addCategory: "Add category",
+      },
+    },
   },
   ru: {
     login: {
@@ -60,6 +72,18 @@ export const lang = {
       errorUsernameTaken: "этот никнейм занят",
       errorUsernameValid: "никнейм должен быть минимум из 2 символов",
       errorNoSuchAcc: "пользователь не найден или неверный пароль",
+    },
+    sideBar: {
+      search: "Найти задачу",
+      homepage: "Главная",
+      calendar: "Календарь",
+      categories: {
+        title: "Категории",
+        work: "работа",
+        personal: "личное",
+        study: "учеба",
+        addCategory: "Добавить категорию",
+      },
     },
   },
 };
