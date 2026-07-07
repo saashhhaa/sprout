@@ -36,7 +36,9 @@ function addCategory(): void {
 
 <template>
   <div class="sideBar">
-    <Logotype />
+    
+    <div class="container">
+<Logotype />
     <div class="searchBar">
       <label for="search"
         ><img src="../assets/homepage/search.svg" alt="" />
@@ -95,7 +97,9 @@ function addCategory(): void {
         <button @click="addCategory">+</button>
       </div>
     </div>
-    <div class="langSwitcher">
+    </div>
+    <div class="settings">
+        <div class="langSwitcher">
       <LangSwincher />
     </div>
 
@@ -110,6 +114,8 @@ function addCategory(): void {
       <img src="../assets/homepage/settings.svg" alt="" />
     </div>
   </div>
+    </div>
+    
 </template>
 
 <style scoped>
@@ -128,6 +134,7 @@ function addCategory(): void {
   border-right: 1px solid rgba(43, 65, 41, 0.258);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0px;
+  justify-content: space-between;
 }
 
 img {
@@ -165,10 +172,14 @@ img {
 /* PAGE SWITCHER */
 .sectionsBar {
   width: 100%;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .sectionsBar .cover {
   border-radius: 5px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   display: flex;
   align-items: center;
   gap: 10px;
@@ -193,9 +204,9 @@ img {
 
 /* CATEGORIES */
 .categoriesWrapper {
-     max-height: 23vh;
+     max-height: 30vh;
   overflow-y: auto;
-  margin-bottom: 2vh;
+  margin-bottom: 5px;
 }
 
 .categoriesWrapper::-webkit-scrollbar{
@@ -283,6 +294,7 @@ img {
   align-items: center;
   /* margin-bottom: 10px; */
   justify-content: space-between;
+  margin-top: 10px;
 }
 .profile .cover {
   display: flex;
@@ -307,5 +319,12 @@ img,
 .name,
 .email {
   cursor: pointer;
+}
+
+/*  */
+
+.container, .settings {
+    width: 100%;
+
 }
 </style>

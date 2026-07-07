@@ -48,7 +48,7 @@ function deleteCategory(): void {
   gap: 10px;
   align-items: center;
   border-radius: 10px;
-  padding: 5px 20px;
+  padding: 10px 20px;
   width: 100%;
   background-color: white;
   border: 1.5px solid var(--bg-secondary2);
