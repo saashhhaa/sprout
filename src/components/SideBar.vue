@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { useCategoriesStore, useUsersStore } from "../stores/store";
+import { useCategoriesStore, useTasksSStore, useUsersStore } from "../stores/store";
 import Category from "./Category.vue";
 import LangSwincher from "./LangSwincher.vue";
 import Logotype from "./Logotype.vue";
 import { ref } from "vue";
-
+import defaulProfileImage from '../assets/profile.svg'
 const usersStore = useUsersStore();
 const categoriesStore = useCategoriesStore();
+const tasksStore = useTasksSStore()
 const { t } = useI18n();
 const categoryTitle = ref("");
 const categoryColor = ref("#1a9185");
@@ -24,14 +25,20 @@ function addCategory(): void {
   newCategoryFormVisible.value = false;
 }
 
-// function getTaskCount(categoryTitle: string): number {
-//   return tasksStore.tasks.filter(
-//     (task) =>
-//       task.userId === users.currentUser?.id && task.category === categoryTitle,
-//   ).length;
-// }
+function getTaskCount(categoryTitle: string): number {
+  return tasksStore.tasks.filter(
+    (task) =>
+      task.userId === usersStore.currentUser?.id && task.category === categoryTitle,
+  ).length;
+}
+function getDoneTaskCount(categoryTitle: string): number {
+  return tasksStore.tasks.filter(
+    (task) =>
+      task.userId === usersStore.currentUser?.id && task.category === categoryTitle && task.isDone === true
+  ).length;
+}
 
-// const doneTasksForCat = categoriesStore.categories.filter((cat)=>cat.)
+
 </script>
 
 <template>
@@ -46,7 +53,7 @@ function addCategory(): void {
       <input id="search" type="text" :placeholder="t('sideBar.search')" />
     </div>
     <div class="sectionsBar">
-      <div class="cover">
+      <div class="cover active">
         <img src="../assets/homepage/home.svg" alt="" />
         <p>{{ t("sideBar.homepage") }}</p>
       </div>
@@ -62,7 +69,8 @@ function addCategory(): void {
           v-for="category in categoriesStore.categories"
           :color="category.color"
           :title="category.title"
-          :count="category.count"
+          :count="getTaskCount(category.title)"
+         :doneCount="getDoneTaskCount(category.title)"
           :isCustom="category.isCustom"
         />
         <Category
@@ -70,7 +78,8 @@ function addCategory(): void {
           :id="category.id"
           :color="category.color"
           :title="category.title"
-          :count="category.count"
+         :count="getTaskCount(category.title)"
+         :doneCount="getDoneTaskCount(category.title)"
           :isCustom="category.isCustom"
         />
       </div>
@@ -105,7 +114,10 @@ function addCategory(): void {
 
     <div class="profile">
       <div class="cover">
-        <img src="" alt="" />
+         <img
+        :src="usersStore.currentUser?.image || defaulProfileImage"
+        class="profileImage"
+      />
         <div class="box">
           <p class="name">{{ usersStore.currentUser?.username }}</p>
           <p class="email">{{ usersStore.currentUser?.email }}</p>
@@ -158,6 +170,11 @@ img {
 .searchBar img {
   width: 20px;
   height: 20px;
+}
+
+.active {
+    color: var(--text-main) !important;
+    background-color: rgba(167, 208, 167, 0.463);
 }
 
 .searchBar input {
@@ -304,6 +321,12 @@ img {
 
 .profile .cover img {
   border-radius: 50px;
+  width: 30px;
+  height: 30px;
+  filter: brightness(0.1);
+  border: 1.5px solid rgba(128, 128, 128, 0.456);
+  /* object-fit: cover; */
+
 }
 
 .email {

@@ -8,6 +8,7 @@ interface Props {
   color: string;
   count: number;
   isCustom?: boolean;
+  doneCount: number;
 }
 
 const props = defineProps<Props>();
@@ -34,7 +35,7 @@ function deleteCategory(): void {
       alt=""
     />
     <div class="box" v-else></div>
-    <div class="category-count">0/{{ props.count }}</div>
+    <div class="category-count">{{props.doneCount}}/{{ props.count }}</div>
   </div>
 </template>
 

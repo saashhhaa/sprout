@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { i18n } from "../lang";
+import dayjs from 'dayjs';
 
 export interface User {
   id: number;
@@ -8,6 +9,21 @@ export interface User {
   email: string;
   image: string;
 }
+
+export interface Task {
+  id: number;
+  userId: number;
+  title: string;
+  category: string;
+  catCol: string;
+  createDate: string;
+  doneDate: string;
+  deadlineDate: string;
+  isDone: boolean;
+  isDeadlined: boolean;
+}
+
+
 export interface Category {
   color: string;
   title: string;
@@ -130,6 +146,84 @@ export const useUsersStore = defineStore("users", {
       localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
       localStorage.setItem("users", JSON.stringify(this.users));
     },
+  },
+});
+
+export const useTasksSStore = defineStore("tasks", {
+  state: () => ({
+    tasks: JSON.parse(localStorage.getItem("tasks") || "[]") as Task[],
+    selectedCategory: "",
+  }),
+  getters: {
+    getDeadlinedTasks: (state) => {
+      const usersStore = useUsersStore();
+      const currentUserId = usersStore.currentUser?.id;
+      const today = dayjs().format("YYYY-MM-DD");
+
+      return state.tasks.filter((task) => {
+        if (task.userId !== currentUserId || task.isDone || !task.deadlineDate) {
+          return false;
+        }
+        return dayjs(today).isAfter(dayjs(task.deadlineDate)) ;
+      });
+    }
+  },
+  actions: {
+    createNewTask(
+      newTitle: string,
+      newDeadline: string,
+      todayDate: string,
+      newCategory: string,
+    ) {
+      const categories = useCategoriesStore();
+      const users = useUsersStore();
+      const found =
+        categories.customCategories.find((c) => c.title == newCategory) ||
+        categories.categories.find((c) => c.title == newCategory);
+      if (!users.currentUser) {
+        return;
+      }
+      const newTask: Task = {
+        id: Date.now(),
+        userId: users.currentUser.id,
+        title: newTitle,
+        createDate: todayDate,
+        doneDate: "",
+        deadlineDate: newDeadline || "",
+        category: newCategory,
+        catCol: found ? found.color : "#ffffff",
+        isDone: false,
+        isDeadlined: false
+      };
+      this.tasks.push(newTask);
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    },
+    deleteTask(taskToDelete: number): void {
+      this.tasks = this.tasks.filter((task) => task.id != taskToDelete);
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    },
+    switchTaskState(taskId: number, createDate: string): void {
+      const taskToChange = this.tasks.find((task) => task.id == taskId);
+      if (!taskToChange) {
+        return;
+      }
+      taskToChange.isDone = !taskToChange.isDone;
+      !taskToChange.isDone
+        ? (taskToChange.doneDate = "-")
+        : (taskToChange.doneDate = createDate);
+
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    },
+    selectCategory(categoryTitle: string): void {
+      if (this.selectedCategory == categoryTitle) {
+        this.selectedCategory = "";
+      } else {
+        this.selectedCategory = categoryTitle;
+      }
+    },
+    clearCategory(): void {
+      this.selectedCategory = "";
+    }
   },
 });
 
