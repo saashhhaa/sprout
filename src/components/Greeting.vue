@@ -59,51 +59,52 @@ const usersStore = useUsersStore();
 }
 
 .cover {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .todayTasks {
-      border-radius: 10px;
-  padding: 5px 20px;
-  /* width: 100%; */
-  background-color: white;
-  border: 1.5px solid var(--bg-secondary2);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 30px;
 
+  border-bottom-left-radius: 30px;
+
+  border-bottom-right-radius: 10px;
+
+  padding: 5px 20px;
+  background-color: var(--bg-main);
 }
 
 .todayTasks p {
-    font-size: 14px;
-    opacity: .5;
-
+  font-size: 14px;
+  opacity: 0.5;
 }
 
-.todayTasks img{
-    width: 35px;
-    height: 35px;
-    filter: brightness(0.6);
+.todayTasks img {
+  width: 35px;
+  height: 35px;
+  filter: brightness(0.6);
 }
 
 .todayTasks h2 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .left {
-    display: flex;
+  display: flex;
 }
 
 .left img {
-    width: 70px;
-    height: 70px;
+  width: 70px;
+  height: 70px;
 }
 
 .left h2 {
-    font-size: 24px;
-    font-weight: 500;
+  font-size: 24px;
+  font-weight: 500;
 }
 .left p {
-    opacity: .5;
+  opacity: 0.5;
 }
-
 </style>

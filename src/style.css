@@ -19,6 +19,7 @@
   --bg-secondary2: #e6eadd;
   --blocks: #ffffff;
   --accent-color: #2e5b3e;
+  --contrast: white;
 }
 [data-theme="dark"] {
   --text-main: #e9efe3;
@@ -27,6 +28,12 @@
   --bg-secondary: #1d261c;
   --bg-secondary2: #0b110c;
   --accent-color: #7ed196;
+  --contrast: #182018;
+}
+
+body.dark img {
+  opacity: 1 !important;
+  filter: invert(1) !important
 }
 
 body {
@@ -49,4 +56,13 @@ button:hover {
 img {
   width: 25px;
   height: 25px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+}
+
+input {
+  background-color: var(--contrast);
 }

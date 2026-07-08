@@ -6,6 +6,7 @@ import LangSwincher from "./LangSwincher.vue";
 import Logotype from "./Logotype.vue";
 import { ref } from "vue";
 import defaulProfileImage from '../assets/profile.svg'
+import { onClickOutside } from "@vueuse/core";
 const usersStore = useUsersStore();
 const categoriesStore = useCategoriesStore();
 const tasksStore = useTasksSStore()
@@ -38,6 +39,23 @@ function getDoneTaskCount(categoryTitle: string): number {
   ).length;
 }
 
+function getTranslatedTitle(title: string): string {
+  switch (title) {
+    case "work":
+      return t("sideBar.categories.work");
+    case "study":
+      return t("sideBar.categories.study");
+    case "personal":
+      return t("sideBar.categories.personal");
+    default:
+      return title;
+  }
+}
+
+const categoryFormRef = ref(null); 
+onClickOutside(categoryFormRef, () => {
+  newCategoryFormVisible.value = false;
+});
 
 </script>
 
@@ -53,14 +71,20 @@ function getDoneTaskCount(categoryTitle: string): number {
       <input id="search" type="text" :placeholder="t('sideBar.search')" />
     </div>
     <div class="sectionsBar">
-      <div class="cover active">
+      <RouterLink to="/homepage">
+ <div class="cover">
         <img src="../assets/homepage/home.svg" alt="" />
         <p>{{ t("sideBar.homepage") }}</p>
       </div>
-      <div class="cover">
+      </RouterLink>
+      <RouterLink to="/calendar">
+ <div class="cover">
         <img src="../assets/homepage/calendar.svg" alt="" />
         <p>{{ t("sideBar.calendar") }}</p>
       </div>
+      </RouterLink>
+     
+     
     </div>
     <div class="categoriesBar">
       <h3>{{ t("sideBar.categories.title") }}</h3>
@@ -68,10 +92,12 @@ function getDoneTaskCount(categoryTitle: string): number {
         <Category
           v-for="category in categoriesStore.categories"
           :color="category.color"
-          :title="category.title"
+          :title="getTranslatedTitle(category.title)"
           :count="getTaskCount(category.title)"
          :doneCount="getDoneTaskCount(category.title)"
           :isCustom="category.isCustom"
+          @click="tasksStore.selectCategory(category.title)"
+          :class="{ active: tasksStore.selectedCategory === category.title }"
         />
         <Category
           v-for="category in categoriesStore.customCategories"
@@ -81,6 +107,8 @@ function getDoneTaskCount(categoryTitle: string): number {
          :count="getTaskCount(category.title)"
          :doneCount="getDoneTaskCount(category.title)"
           :isCustom="category.isCustom"
+          @click="tasksStore.selectCategory(category.title)"
+          :class="{ active: tasksStore.selectedCategory === category.title }"
         />
       </div>
       <div
@@ -90,11 +118,12 @@ function getDoneTaskCount(categoryTitle: string): number {
         "
         @click="newCategoryFormVisible = true"
         class="addNewCategory"
+        @click.stop="newCategoryFormVisible = true"
       >
         <img src="../assets/homepage/plus.svg" alt="" />
         <button>{{ t("sideBar.categories.addCategory") }}</button>
       </div>
-      <div v-if="newCategoryFormVisible" class="addCategory_input">
+      <div v-if="newCategoryFormVisible" class="addCategory_input" ref="categoryFormRef">
         <input
           type="text"
           id="categoryTitle"
@@ -112,6 +141,7 @@ function getDoneTaskCount(categoryTitle: string): number {
       <LangSwincher />
     </div>
 
+    <RouterLink to="/settings">
     <div class="profile">
       <div class="cover">
          <img
@@ -124,7 +154,8 @@ function getDoneTaskCount(categoryTitle: string): number {
         </div>
       </div>
       <img src="../assets/homepage/settings.svg" alt="" />
-    </div>
+      
+    </div></RouterLink>
   </div>
     </div>
     
@@ -162,7 +193,7 @@ img {
   gap: 10px;
   width: 100%;
   border-radius: 50px;
-  background-color: white;
+  background-color: var(--contrast);
   padding: 5px 15px;
   border: 1px solid var(--bg-secondary2);
 }
@@ -172,14 +203,11 @@ img {
   height: 20px;
 }
 
-.active {
-    color: var(--text-main) !important;
-    background-color: rgba(167, 208, 167, 0.463);
-}
-
 .searchBar input {
   border: none;
   outline: none;
+  background-color: var(--contrast);
+
 }
 .searchBar label {
   display: flex;
@@ -219,6 +247,16 @@ img {
   height: 20px;
 }
 
+.sectionsBar a.router-link-active .cover {
+    color: var(--text-main);
+    background-color: rgba(167, 208, 167, 0.463);
+}
+
+.sectionsBar a.router-link-active .cover img {
+  filter: brightness(0);
+  opacity: .7; 
+}
+
 /* CATEGORIES */
 .categoriesWrapper {
      max-height: 30vh;
@@ -237,7 +275,7 @@ img {
   font-size: 0.8rem;
   font-weight: 600;
   opacity: 0.5;
-  margin-bottom: 2vh;
+  margin: 2vh 0;
 }
 
 .categoriesBar {
@@ -247,6 +285,7 @@ img {
 .addNewCategory {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   padding: 5px 10px;
   border-radius: 10px;
@@ -301,12 +340,14 @@ img {
   border-radius: 10px;
   padding: 5px 20px;
   width: 100%;
-  background-color: white;
+    background-color: var(--contrast);
+
   border: 1.5px solid var(--bg-secondary2);
 }
 
 /* profile */
 .profile {
+  color: var(--text-main);
   display: flex;
   align-items: center;
   /* margin-bottom: 10px; */
@@ -320,10 +361,12 @@ img {
 }
 
 .profile .cover img {
+  filter: brightness(1);
+  opacity: 1;
   border-radius: 50px;
   width: 30px;
   height: 30px;
-  filter: brightness(0.1);
+  /* filter: brightness(0.1); */
   border: 1.5px solid rgba(128, 128, 128, 0.456);
   /* object-fit: cover; */
 
@@ -349,5 +392,9 @@ img,
 .container, .settings {
     width: 100%;
 
+}
+
+* {
+  text-decoration: none;
 }
 </style>

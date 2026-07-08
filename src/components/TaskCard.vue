@@ -4,6 +4,7 @@ import doneIcon from "../assets/homepage/plant.svg";
 import activeIcon from "../assets/homepage/circle.svg";
 import { computed } from "vue";
 import dayjs from "dayjs";
+import { useI18n } from "vue-i18n";
 
 interface Task {
   id: number;
@@ -42,6 +43,22 @@ function deleteTask() {
     catAmount.count -= 1;
   }
 }
+const {t} = useI18n()
+
+
+function getTranslatedTitle(title: string): string {
+  switch (title) {
+    case "work":
+      return t("sideBar.categories.work");
+    case "study":
+      return t("sideBar.categories.study");
+    case "personal":
+      return t("sideBar.categories.personal");
+    default:
+      return title;
+  }
+}
+
 </script>
 
 <template>
@@ -68,7 +85,7 @@ function deleteTask() {
         <div class="titleDetails">
           <div class="category" :style="{ color: props.catColor }">
             <div class="dot" :style="{ backgroundColor: props.catColor }"></div>
-            {{ props.category }}
+            {{ getTranslatedTitle(props.category) }}
           </div>
           <div v-if="props.deadlineDate != ''" class="date">
             <img src="../assets/homepage/calendar.svg" />
@@ -103,7 +120,7 @@ function deleteTask() {
   padding: 2vh 2vw;
   align-items: center;
   border-radius: 20px;
-  background-color: white;
+    background-color: var(--contrast);
   border: 1px solid var(--bg-secondary2);
 }
 .cover {
@@ -135,13 +152,13 @@ function deleteTask() {
 
 .date {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   align-items: center;
   opacity: 0.5;
 }
 
 .date img {
-  width: 20px;
+  width: 15px;
 }
 
 .deleteTask {

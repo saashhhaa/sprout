@@ -35,7 +35,7 @@ function deleteCategory(): void {
       alt=""
     />
     <div class="box" v-else></div>
-    <div class="category-count">{{props.doneCount}}/{{ props.count }}</div>
+    <div v-if="props.count!=0" class="category-count">{{props.doneCount}}/{{ props.count }}</div>
   </div>
 </template>
 
@@ -51,7 +51,7 @@ function deleteCategory(): void {
   border-radius: 10px;
   padding: 10px 20px;
   width: 100%;
-  background-color: white;
+  background-color: var(--bg-main);
   border: 1.5px solid var(--bg-secondary2);
   margin-bottom: 10px;
 }
@@ -86,12 +86,21 @@ function deleteCategory(): void {
 }
 
 .category-count {
-  /* text-align: end; */
   opacity: .5;
 }
 
 .category:hover {
+  filter: brightness(1.05);
   cursor: pointer;
+}
+
+.active {
+      background-color: var(--contrast) !important;
+
+    /* color: white; */
+}
+.active:hover img{
+/* filter: invert(1) !important; */
 }
 
 </style>

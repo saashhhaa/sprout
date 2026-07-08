@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { i18n } from "../lang";
 import dayjs from 'dayjs';
+import { ref } from "vue";
 
 export interface User {
   id: number;
@@ -130,21 +131,23 @@ export const useUsersStore = defineStore("users", {
       this.currentUser = null;
       localStorage.removeItem("currentUser");
     },
-    editUser(newImage: string, newUsername: string): void {
-      if (!this.currentUser) {
-        return;
-      }
-      this.currentUser.username = newUsername;
+    editUser(newImage: string, newUsername: string, newEmail: string): void {
+      if (!this.currentUser) return;
+
+    this.currentUser.username = newUsername || this.currentUser.username;
+    this.currentUser.email = newEmail || this.currentUser.email;
+    
+    if (newImage) {
       this.currentUser.image = newImage;
-      const editedUserIndex = this.users.findIndex(
-        (user) => user.id == this.currentUser?.id,
-      );
-      if (editedUserIndex != -1) {
-        this.users[editedUserIndex].username = newUsername;
-      }
-      this.users[editedUserIndex].image = newImage;
-      localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
-      localStorage.setItem("users", JSON.stringify(this.users));
+    }
+
+    const userIndex = this.users.findIndex(u => u.id === this.currentUser?.id);
+    if (userIndex !== -1) {
+      this.users[userIndex] = { ...this.currentUser };
+    }
+
+    localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+    localStorage.setItem("users", JSON.stringify(this.users));
     },
   },
 });
@@ -249,4 +252,26 @@ export const useLangStore = defineStore("language", {
       this.setLang(this.lang);
     },
   },
+});
+
+export const useThemeStore = defineStore("theme", {
+  state: () => ({
+    theme: (localStorage.getItem("theme") || "light") as "light" | "dark",
+  }),
+  actions: {
+    switchTheme(mode: "light" | "dark"): void {
+      this.theme = mode;
+      localStorage.setItem("theme", mode);
+      this.applyTheme();
+    },
+    applyTheme(): void {
+     document.documentElement.setAttribute("data-theme", this.theme);
+    },
+  },
+});
+
+
+export const useDateStore = defineStore("date", () => {
+  const selectedDate = ref(new Date());
+  return { selectedDate };
 });

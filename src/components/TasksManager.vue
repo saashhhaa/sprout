@@ -7,6 +7,9 @@ import { useI18n } from 'vue-i18n';
 import TaskForm from './TaskForm.vue';
 import Greeting from './Greeting.vue';
 import TaskCard from './TaskCard.vue';
+import 'dayjs/locale/ru'; 
+import 'dayjs/locale/en';
+import TasksTable from './TasksTable.vue';
 
 
 const {locale} = useI18n()
@@ -42,16 +45,12 @@ const filteredTasks = computed(() => {
   return result;
 });
 
-function deleteAllDone() {
-  tasksStore.tasks = tasksStore.tasks.filter((task) => !task.isDone);
-  localStorage.setItem("tasks", JSON.stringify(tasksStore.tasks));
-}
-
-function formatTaskDate(rawDate: string) {
+function formatTaskDate(rawDate: string, currentLocale: string) {
   if (!rawDate) return "";
   const dateObj = dayjs(rawDate);
   if (!dateObj.isValid()) return null;
-  return dateObj.locale(locale.value).format("D MMMM");
+  
+  return dateObj.locale(currentLocale).format("D MMMM");
 }
 
 function switchModes(mode: string) {
@@ -61,6 +60,11 @@ function switchModes(mode: string) {
   }
 }
 
+const currentView = ref('list')
+function handleViewSwitch( view: 'list' | 'table'){
+  currentView.value = view
+}
+
 </script>
 
 <template>
@@ -68,7 +72,7 @@ function switchModes(mode: string) {
     <div class="tasksManager">
         <Greeting/>
         <TaskForm/>
-        <Filter :tasks="filteredTasks" @switchModes="switchModes"/>
+        <Filter :tasks="filteredTasks" @switchModes="switchModes" @switchView="handleViewSwitch" :currentView="currentView"/>
          <h3 v-if="currentMode == 'all'">
       {{ $t("taskManager.titleAllTasks") }}
     </h3>
@@ -85,7 +89,7 @@ function switchModes(mode: string) {
       {{ $t("taskManager.titleDeadlinedTasks") }}
     </h3>
 <div
-      v-if="filteredTasks.length > 0"
+      v-if="filteredTasks.length > 0 && currentView == 'list'"
       class="tasksGrid"
     >
       <TaskCard
@@ -93,7 +97,7 @@ function switchModes(mode: string) {
         :id="task.id"
         :title="task.title"
         :category="task.category"
-        :deadlineDate="formatTaskDate(task.deadlineDate) || ''"
+        :deadlineDate="formatTaskDate(task.deadlineDate, locale) || ''"
         :deadlineDateNoFormat="task.deadlineDate || ''"
         :createDate="todayDate || ''"
         :doneDate="'-'"
@@ -103,6 +107,11 @@ function switchModes(mode: string) {
         v-for="task in filteredTasks"
       />
     </div>
+      <TasksTable
+      v-else-if="currentView == 'table' && tasksStore.tasks.length!=0"
+      :tasksList="filteredTasks"
+      :key="JSON.stringify(filteredTasks)"
+    />
       <p class="noTasksMessage" v-else>{{ $t("taskManager.noTasksMessage") }}</p>
     </div>
 </template>
@@ -121,16 +130,9 @@ h3 {
 .tasksGrid {
    max-height: 30vh; 
     gap: 10px;
-    /* 2. Включаем вертикальный скролл, если задачи не влезают */
     overflow-y: auto;  
-    
-    /* 3. Прячем горизонтальный скролл (на всякий случай) */
     overflow-x: hidden; 
-    
-    /* 4. Чтобы при прокрутке карточки не прилипали к краям */
     padding-right: 8px; 
-    
-    /* Пример сетки (если вы используете grid/flex, укажите gap) */
     display: flex;
     flex-direction: column;
 }
