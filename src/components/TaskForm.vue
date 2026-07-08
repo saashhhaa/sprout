@@ -12,7 +12,6 @@ import { useI18n } from "vue-i18n";
 const isModalVisible = ref(false);
 
 const tasks = useTasksSStore();
-const users = useUsersStore();
 const categoriesStore = useCategoriesStore();
 const newTaskTitle = ref("");
 const newTaskDeadline = ref("");
@@ -68,7 +67,6 @@ onClickOutside(modalRef, () => {
     </div>
     <div class="cover">
       <div class="flex">
-        <!-- Основные дефолтные категории -->
         <div
           v-for="category in categoriesStore.categories"
           :key="category.title"

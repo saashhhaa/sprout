@@ -109,19 +109,25 @@ button:disabled:hover {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  flex-wrap: wrap;
+  margin-bottom: 2vh;
+}
+
+.left::-webkit-scrollbar{
+  visibility: hidden;
 }
 
 .left{
   display: flex;
   align-items: center;
   gap: 5px;
-  flex-wrap: wrap;
   margin: 2vh 0;
   background-color: var(--bg-secondary);
   border: 1.5px solid var(--bg-secondary2);
   width: fit-content;
   border-radius: 50px;
   padding: 5px 5px 5px 2vw;
+  
 }
 
 .filterIcon {
@@ -206,6 +212,13 @@ padding: 5px 10px;
 .viewMode.active img {
   opacity: 0.8;
 
+}
+
+@media (max-width: 1000px) {
+  .left{
+max-width: 100%;
+  overflow-x: auto;
+  }
 }
 
 </style>

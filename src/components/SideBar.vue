@@ -174,7 +174,7 @@ onClickOutside(categoryFormRef, () => {
   align-items: start;
   border-radius: 30px;
   background-color: var(--bg-secondary);
-  border-right: 1px solid rgba(43, 65, 41, 0.258);
+  /* border-right: 1.5px solid rgba(43, 65, 41, 0.134); */
   border-top-right-radius: 0;
   border-bottom-right-radius: 0px;
   justify-content: space-between;
@@ -396,5 +396,11 @@ img,
 
 * {
   text-decoration: none;
+}
+
+@media (max-width: 1000px){
+  .sideBar {
+    display: none !important;
+  }
 }
 </style>

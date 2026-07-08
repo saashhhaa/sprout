@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { DatePicker as VDatePicker } from 'v-calendar';
 import 'v-calendar/dist/style.css';
 import Weather from '../components/Weather.vue';
+import BottomBar from '../components/BottomBar.vue';
 
 const { locale } = useI18n();
 const dateStore = useDateStore();
@@ -105,6 +106,7 @@ const formattedSelectedDate = computed(() => {
     <Weather/> 
       
     </div>
+    <BottomBar/>
 
   </div>
 </template>
@@ -241,20 +243,22 @@ const formattedSelectedDate = computed(() => {
   font-size: 14px;
 }
 
-@media (max-width: 480px) {
-  .calendar-wrap :deep(.vc-container) {
-    font-size: 13px;
-  }
-}
 
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
    .calendar {
+    padding: 3vh 4vw;
     display: flex;
   border-radius: 0px;
   width: 100vw;
+  justify-content: center;
   min-height: 95vh;
   margin-top: 0vh;
 }
-    
+
+.calendar-main-content {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
 }
 </style>

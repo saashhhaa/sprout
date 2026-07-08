@@ -104,7 +104,7 @@ function handleSwitch(mode: "light" | "dark"): void {
         </div>
       </div>
 
-      <div class="cover">
+      <div class="cover input">
         <div class="box">
           <label for="name">{{ $t("settings.name") }}</label> <br />
           <input
@@ -369,13 +369,28 @@ button:disabled {
   background-color: var(--blocks);
 }
 
-@media (max-width: 600px) {
-  .homepage {
+@media (max-width: 1200px) {
+   .settings {
+    padding: 3vh 4vw;
     display: flex;
-    border-radius: 0px;
-    width: 100vw;
-    min-height: 95vh;
-    margin-top: 0vh;
+  border-radius: 0px;
+  width: 100vw;
+  justify-content: center;
+  min-height: 95vh;
+  margin-top: 0vh;
+}
+}
+
+@media (max-width: 695px) {
+  .styling .cover, .input, .exit .cover {
+    flex-direction: column;
+  }
+  .section {
+    padding: 2vh 3vw;
+  }
+
+  .exitButton {
+    width: 100%;
   }
 }
 </style>
